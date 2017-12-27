@@ -54,12 +54,12 @@ def delta2str_time(delta):
 
 
 def str_time2dt(str_time):
-    dt = datetime.datetime.strptime(str_time, "%Y-%m-%d %H:%M:%S")
+    dt = datetime.datetime.strptime(str_time, "%Y-%m-%d-%H:%M:%S")
     return dt
 
 
 def dt2str_time(dt):
-    str_time = dt.strftime("%Y-%m-%d %H:%M:%S")
+    str_time = dt.strftime("%Y-%m-%d-%H:%M:%S")
     return str_time
 
 
@@ -87,7 +87,7 @@ class SuperCalculatorCommand(sublime_plugin.TextCommand):
             du_dt = et_dt - st_dt
             et = dt2str_time(et_dt)
             du = delta2str_time(du_dt)
-            return "End(\"{et}, {du}\")".format(du=du, et=et)
+            return "End(\"{et},{du}\")".format(du=du, et=et)
 
         self.callables['Start'] = Start
 
@@ -113,7 +113,7 @@ class SuperCalculatorCommand(sublime_plugin.TextCommand):
 
         def Pause(du_str):
             st_dt = datetime.datetime.now()
-            return "Doing(\"{st_str}, {du_str}\")".format(
+            return "Doing(\"{st_str},{du_str}\")".format(
                 st_str=dt2str_time(st_dt), du_str=du_str)
 
         self.callables['Pause'] = Pause
@@ -136,7 +136,7 @@ class SuperCalculatorCommand(sublime_plugin.TextCommand):
 
         def init():
             now = dt2str_time(datetime.datetime.now())
-            return "Start(\"{now}\"); Doing(\"{now}, 0s\");".format(now=now)
+            return "Start(\"{now}\") Doing(\"{now},0s\")".format(now=now)
         init = Constant(init)
         self.callables['init'] = init
 
